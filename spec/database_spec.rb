@@ -13,7 +13,8 @@ describe "Database" do
     expect(@db.add_user("wendy")).to be_a(RPS::User)
 end
   it "shows list of all users" do
-    wendy= @db.add_user("wendy")
-    expect(@db.show_users).to eq([wendy])
+    wendy = @db.add_user("wendy")
+    andy = @db.add_user("andy")
+    expect(@db.show_users).to eq({wendy.id=>wendy, andy.id=>andy})
 end
 end
