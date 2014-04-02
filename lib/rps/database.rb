@@ -9,12 +9,13 @@ module RPS
 
   class DB
 
-    attr_reader :users, :rounds, :matches
+    attr_reader :users, :rounds, :matches, :session
 
     def initialize
       @users = {}
       @rounds = {}
       @matches = {}
+      @session = {}
 
     end
     # USER CRUD - CREATE #
@@ -29,6 +30,17 @@ module RPS
     def show_users
       @users
     end
+
+    def get_user
+      @users.values
+    end
+    def get_round
+      @rounds.values
+    end
+    def get_matches
+      @matches.values
+    end
+
 
     #USER CRUD- UPDATE #
     def update_user(original_id, new_name)
@@ -49,30 +61,49 @@ module RPS
       @matches[match_id.to_i] = match
       return match
     end
+
     #Match - Read #
     def show_matches
       @matches
     end
 
-
-
     #ROUND CRUD - CREATE #
       #it shouldn't create if there is winner#
     def create_new_round_for_match(match_id)
-      new_round = RPS::Round.new
-      if new_round.winner ==3
+      new_round = RPS::Round.new(match_id)
+      # if new_round.winner
 
         new_round.mid == match_id
         @rounds[new_round.id.to_i] = new_round
         return new_round
-      end
-    end
-   #Round - Update#
-    def determine_winner_in_round(round_id)
 
     end
+   #Round - Update#
+    def determine_winner_in_round(match_id, p1_move, p2_move)
+      round = RPS::Round.new(match_id)
+      match = @matches[match_id.to_i]
+      if p1_move == "rock" && p2_move == "paper"
+        round.winner = match.player2_id
+      elsif p1_move == "rock" && p2_move =="scissors"
+        round.winner = match.player1_id
+      elsif p1_move == "paper" && p2_move == "rock"
+        round.winner = match.player1_id
+      elsif p1_move == "paper" && p2_move == "scissors"
+        round.winner = match.player2_id
+      elsif p1_move == "scissors" && p2_move == "rock"
+        round.winner = match.player2_id
+      elsif p1_move == "scissors" && p2_move == "paper"
+        round.winner = match.player1_id
+      elsif p1_move == p2_move
+        round.winner = nil
+      end
+      round.winner
+    end
+
     #ROUND CRUD - READ #
-    def show_rounds(p1_id, p2_id)
+    def show_rounds_for_each_match(mid)
+      rounds = @rounds.values.select {|x| x.include?(x.mid)}
+      return rounds.values
     end
 
 

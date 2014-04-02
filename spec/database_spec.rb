@@ -31,7 +31,12 @@ describe "Database" do
   end
 
   it "starts a new match initialized with 2 player ids" do
-    expect(@db.start_new_match(1, 5)).to be_a(RPS::Match)
+
+    match = @db.start_new_match(1, 5)
+
+    expect(match).to be_a(RPS::Match)
+    expect(match.player1_id).to eq(1)
+    expect(match.player2_id).to eq(5)
   end
   it "shows list of all matches" do
     match1 = @db.start_new_match(3,4)
@@ -42,22 +47,31 @@ describe "Database" do
 
   describe "new round" do
     before do
-      @match1 = @db.start_new_match(1,2)
-      @round1 = @db.create_new_round_for_match(@match1.id)
       @player1= RPS::User.new("wendy")
       @player2 = RPS::User.new("andy")
+      @match1 = @db.start_new_match(@player1.id,@player2.id)
+      @round1 = @db.create_new_round_for_match(@match1.id)
+
     end
   it "creates a new round for specific match" do
     expect(@round1).to eq(@round1)
     # round2 = @db.create_new_round_for_match(@match.id)
+  end
+
+  it "determines winner for each round " do
+    # player1 = @db.add_user("wendy")
+    # player2 = @db.add_user("andy")
+    winner= @db.determine_winner_in_round(@match1.id, "rock", "paper")
+    expect(winner).to eq(@player2.id)
    end
-  xit "determines winner for each round " do
+   it " shows all the rounds for specific match " do
 
-    result= @round1.determine_winner("rock", "paper")
-    expect(@round1.winner).to eq(@player2.id)
+    round2 = @db.create_new_round_for_match(@match1.id)
+    round3 = @db.create_new_round_for_match(99)
+
+    expect(@db.rounds).to eq([@round1, round2])
+  end
 
 
-
-   end
   end
 end
