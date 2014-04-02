@@ -9,4 +9,5 @@ describe 'Match' do
     RPS::Match.class_variable_set :@@counter, 0
     expect(RPS::Match.new.id).to eq(1)
   end
+
 end

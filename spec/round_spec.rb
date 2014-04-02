@@ -5,6 +5,7 @@ describe 'Round' do
     @round = RPS::Round.new
     @player1= RPS::User.new("wendy")
     @player2= RPS::User.new("andy")
+    @match = RPS::Match.new
   end
 
   it "makes a new round with unique id" do
@@ -18,6 +19,11 @@ describe 'Round' do
 
     expect(@round.player1_id).to eq(1)
     expect(@round.player2_id).to eq(2)
+  end
+
+  it"is attached with a match id" do
+    @round.register_match(@match.id)
+    expect(@round.mid).to eq(@match.id)
   end
 
   it "determines the winner of the round by p1 and p2 moves" do

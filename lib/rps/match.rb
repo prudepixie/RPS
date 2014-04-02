@@ -6,7 +6,10 @@ class RPS::Match
   def initialize
     @id = @@counter+=1
     @winner= nil
+
   end
+
+
 
 end
 

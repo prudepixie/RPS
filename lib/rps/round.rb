@@ -1,6 +1,6 @@
 class RPS::Round
 
-  attr_accessor :id, :player1_id, :player2_id, :winner, :p1_move, :p2_move
+  attr_accessor :id, :player1_id, :player2_id, :winner, :p1_move, :p2_move, :mid
   @@counter = 0
 
   def initialize
@@ -11,6 +11,7 @@ class RPS::Round
     @winner= nil
     @p1_move = nil
     @p2_move = nil
+    @mid=mid
   end
 
   def register_player1(player1_id)
@@ -21,6 +22,9 @@ class RPS::Round
     @player2_id = player2_id
   end
 
+  def register_match(mid)
+    @mid=mid
+  end
 
   def determine_winner(p1_move, p2_move)
     if p1_move == "rock" && p2_move == "paper"
