@@ -68,8 +68,12 @@ describe "Database" do
 
     round2 = @db.create_new_round_for_match(@match1.id)
     round3 = @db.create_new_round_for_match(99)
+    @db.show_rounds_for_each_match(@match1.id)
+    binding.pry
+    expect(@db.rounds).to eq([@round1, round2, round3])
 
-    expect(@db.rounds).to eq([@round1, round2])
+    # @db.show_rounds_for_each_match(@match1.id)
+    # expect(@db.rounds).to eq([@round1, round2])
   end
 
 

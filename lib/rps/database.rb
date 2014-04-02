@@ -101,9 +101,11 @@ module RPS
     end
 
     #ROUND CRUD - READ #
-    def show_rounds_for_each_match(mid)
-      rounds = @rounds.values.select {|x| x.include?(x.mid)}
-      return rounds.values
+    def show_rounds_for_each_match(match_id)
+      # rounds = @rounds.values.select {|x| x.mid=match_id}
+      rounds = @rounds.values
+      return [rounds]
+
     end
 
 
