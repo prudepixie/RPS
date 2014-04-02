@@ -5,7 +5,7 @@ describe 'Round' do
     @round = RPS::Round.new
     @player1= RPS::User.new("wendy")
     @player2= RPS::User.new("andy")
-    @match = RPS::Match.new
+    @match = RPS::Match.new(1,2)
   end
 
   it "makes a new round with unique id" do

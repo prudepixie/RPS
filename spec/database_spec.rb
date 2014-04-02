@@ -22,36 +22,39 @@ describe "Database" do
     wendy = @db.add_user("wendy")
     expect(@db.show_users).to eq({wendy.id =>wendy})
 
-     freda = RPS::User.new("Freda")
      @db.update_user(wendy.id, "Freda")
-     expect(@db.users).to eq({wendy.id => freda.name})
+     expect(@db.users).to eq({wendy.id => wendy})
   end
   it "deletes a user" do
     wendy = @db.add_user("wendy")
     expect(@db.delete_user(wendy.id)).to eq({})
   end
 
-  it "starts a new match" do
-    expect(@db.start_new_match).to be_a(RPS::Match)
+  it "starts a new match initialized with 2 player ids" do
+    expect(@db.start_new_match(1, 5)).to be_a(RPS::Match)
   end
   it "shows list of all matches" do
-    match1 = @db.start_new_match
-    match2 = @db.start_new_match
+    match1 = @db.start_new_match(3,4)
+    match2 = @db.start_new_match(1,2)
 
     expect(@db.show_matches).to eq({match1.id =>match1, match2.id => match2})
   end
 
   describe "new round" do
     before do
-      @match1 = @db.start_new_match
+      @match1 = @db.start_new_match(1,2)
       @round1 = @db.create_new_round_for_match(@match1.id)
+      @player1= RPS::User.new("wendy")
+      @player2 = RPS::User.new("andy")
     end
   it "creates a new round for specific match" do
     expect(@round1).to eq(@round1)
-
     # round2 = @db.create_new_round_for_match(@match.id)
    end
-  it "determines winner for each round " do
+  xit "determines winner for each round " do
+
+    result= @round1.determine_winner("rock", "paper")
+    expect(@round1.winner).to eq(@player2.id)
 
 
 
