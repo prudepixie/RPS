@@ -37,6 +37,10 @@ module RPS
     def get_user(uid)
       @users[uid]
     end
+
+    def get_match(mid)
+      @matches[mid]
+    end
     def get_user_from_username(name)
       user = @users.values.find{|x| x.name ==name}
       user

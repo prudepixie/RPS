@@ -16,6 +16,7 @@ require_relative 'use_cases/Listinvites.rb'
 require_relative 'use_cases/createinvite.rb'
 require_relative 'use_cases/acceptinvite.rb'
 require_relative 'use_cases/sign_in.rb'
+require_relative 'use_cases/playmove.rb'
 
 require 'pry-debugger'
 
