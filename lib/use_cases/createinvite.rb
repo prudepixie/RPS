@@ -9,6 +9,9 @@ module RPS
       return failure(:user_missing) if invitee.nil?
       inviter_id = @db.get_user_from_session(inputs[:session_key])
 
+      invite = @db.add_invite(inviter_id, invitee.id)
+
+      success :invite =>invite
 
 
     end

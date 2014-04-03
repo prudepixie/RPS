@@ -15,7 +15,11 @@ describe RPS::CreateInvite do
   it "errors, if user does not exist"do
 
   result = RPS::CreateInvite.run(:session_key =>@session.key, :invitee_id => "123")
-
   expect(result.error).to eq(:user_missing)
+  end
+
+  it "passes and creates an invite"do
+  result = RPS::CreateInvite.run(:session_key =>@session.key, :invitee_id => @wendy.id)
+  expect(result.success?).to eq(true)
   end
 end
