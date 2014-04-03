@@ -5,6 +5,10 @@ module RPS
       session = @db.get_session(inputs[:session_key])
       return failure(:missing_session) if session.nil?
 
+      invitee = @db.get_user(inputs[:invitee_id])
+      return failure(:user_missing) if invitee.nil?
+      inviter_id = @db.get_user_from_session(inputs[:session_key])
+
 
 
     end
