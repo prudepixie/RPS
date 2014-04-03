@@ -14,7 +14,7 @@ module RPS
       @rounds = {}
       @matches = {}
       @invites = {}
-      @session = {}
+      @sessions = {}
 
     end
 
@@ -41,12 +41,16 @@ module RPS
       user = @users.values.find{|x| x.name ==name}
       user
     end
+    def get_user_from_session(key)
 
-    def create_session(key)
-      session = RPS::Session.new(key)
-      session_key = session.key.to_i
-      @session[session_key] = session
-      return session
+      session = @sessions[key]
+      uid = session.user_id
+    end
+
+    def create_session(uid)
+      session = RPS::Session.new(uid)
+      @sessions[session.key.to_i] = session
+      session
     end
 
 

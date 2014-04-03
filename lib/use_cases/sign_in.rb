@@ -8,20 +8,14 @@ module RPS
       user = RPS.db.get_user_from_username(inputs[:username])
       return failure(:username_missing) if user == nil
       password = inputs[:pw]
-      return failure(:incorrect_password) if user.password != inputs[:pw]
-
-
+      return failure(:incorrect_password) if user.password != password
 
       session = RPS.db.create_session(user.id)
 
-      return success(:session_id => session.id, :user => username)
+      success :session_id => session.key, :user => user
 
     end
 
   end
 end
 
-#inputs {:name =>"Beca"}
-#in case of failure
-#result = RPS::SignIn.run ({ :name => "Wendy" })
-#result = failure(:username_missing )

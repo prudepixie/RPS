@@ -24,6 +24,12 @@ describe "Database" do
     expect(@db.get_user_from_username("wendy")).to eq(wendy)
   end
 
+  it "gets user from session key" do
+    wendy = @db.add_user("wendy", "1234")
+    session = @db.create_session(wendy.id)
+    expect(@db.get_user_from_session(session.key)).to eq(wendy.id)
+  end
+
   it "changes an existing user's name (their id stays the same)" do
     wendy = @db.add_user("wendy", "1234")
     expect(@db.show_users).to eq([wendy])
