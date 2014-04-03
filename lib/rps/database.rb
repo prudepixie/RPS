@@ -7,7 +7,7 @@ module RPS
 
   class DB
 
-    attr_reader :users, :rounds, :matches, :session
+    attr_accessor :users, :rounds, :matches, :session, :invites
 
     def initialize
       @users = {}
@@ -45,6 +45,12 @@ module RPS
 
       session = @sessions[key]
       uid = session.user_id
+      user = get_user(uid)
+    end
+    def create_match(p1_id, p2_id)
+      match = RPS::Match.new(p1_id, p2_id)
+      @matches[match.id.to_i] = match
+      match
     end
 
     def create_session(uid)
@@ -57,15 +63,18 @@ module RPS
       @sessions[key]
     end
 
-
-    def add_invite(id)
-      invite = RPS::Invite.new(id)
-      invite_id = invite.id.to_i
-      @invites[invite_id.to_i] = invite
-      return invite
+    def get_invite(id)
+      @invites[id]
     end
 
-    def show_invites
+
+    def add_invite(p1_id, p2_id)
+      invite = RPS::Invite.new(p1_id, p2_id)
+      @invites[invite.id.to_i] = invite
+      invite
+    end
+
+    def list_invites
       @invites.values
     end
 

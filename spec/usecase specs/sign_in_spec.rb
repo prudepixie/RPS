@@ -21,7 +21,7 @@ describe 'SignIn' do
     result = RPS::SignIn.run(:username => "Wendy", :pw=>"1234")
     expect(result.success?).to eq(true)
     expect(result.session_id).to be_a(Integer)
-    expect(@db.get_user_from_session(result.session_id)).to eq(wendy.id)
+    expect(@db.get_user_from_session(result.session_id).name).to eq("Wendy")
   end
 end
 

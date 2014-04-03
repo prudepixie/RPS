@@ -3,34 +3,24 @@ module RPS
 
 
   class AcceptInvite < UseCase
-   def run (inputs)
-      #inputs = { :id => "4", :inviterid=> "1", :inviteeid=> "2", :status=> "pending"}
+   def run(inputs)
 
-      invite_id = inputs[:id]
+      # binding.pry
+      @db = RPS.db
+      session = @db.get_session(inputs[:session_key])
+      return failure(:missing_session) if session.nil?
+
+      invite = @db.get_invite(inputs[:invite_id])
       return failure(:missing_invite) if invite.nil?
 
+      user = @db.get_user_from_session(inputs[:session_key])
 
+      return failure(:user_not_invited) if invite.invited_id != user.id
 
+      match = @db.create_match(invite.inviter_id, invite.invited_id)
 
+      success :match => match
 
-
-
-      invite = DB.get_invite(inputs [:invite_id])
-
-  #   #create a match
-      RPS.db.start_new_match(invite.player1_id, invite.player2_id)
-  #   #create a pending game
-
-  #   #return the new match
-
-      success :invite =>invite, :inviter =>invite.inviter_id, :invited => invite.invited_id, :invite_id => invite.id, :status => invite.status
-    end
-
-    def check_invite(id)
-      invite = RPS.db.show_invites
-      invite.find{|invite| invite.id ==id}
-    # def create_match()
-    # end
     end
   end
 end

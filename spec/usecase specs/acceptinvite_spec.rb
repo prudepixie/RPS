@@ -1,37 +1,43 @@
-#input = gets..
-#invite id comes from the user
-#this exists in client
-# result = RPS::AcceptInvite.run(:invite_id => id)
-
-# if result.success?
-#   match = result.match
-#   # make this an ostruct
-#   puts "Invite accepted! Match id is #{match.id}"
-#   #comes from create a match
 
 
-# else
-#   if result.error == :missing_invite
-#     puts "Invite does not exist."
-#   end
-# end
+describe RPS::AcceptInvite do
+  before do
+    @db = RPS.db
+    @wendy = @db.add_user("wendy", "5678")
+    @andy = @db.add_user("andy", "5432")
+    @session = @db.create_session(@wendy.id)
+    @invite = @db.add_invite(@andy.id, @wendy.id)
+  end
+  it "errors if session is not found" do
+    # binding.pry
+    result = RPS::AcceptInvite.run(:session_key => 1234)
+    expect(result.error?).to eq(true)
+    expect(result.error).to eq(:missing_session)
+  end
 
-# describe RPS::AcceptInvite do
-#   before do
-#     @db = RPS::DB.new
-#   end
-#   it ""
+  it "errors, if user invite cannot be found" do
+    result = RPS::AcceptInvite.run(:session_key => @session.key, :invite_id => "1234")
 
-#   # it "creates a match from p1 p2 id" do
-#   #   p1 = @db.add_user("wendy")
-#   #   p2 = @db.add_user("andy")
-#   #   match = @db.start_new_match(p1.id, p2.id)
+    expect(result.error).to eq(:missing_invite)
+  end
 
-#   #   result = subject.run({ :invite_id => invite.id, :user_id => user.id})
-#   #   expect(result.success?).to eq true
-#   #   expect(result.match.player1.id).to eq(p1.id)
-#   # end
-# end
+  it "errors, if user fails be to invited" do
+    wrong_invite = @db.add_invite(@andy.id, @andy.id)
+    result = RPS::AcceptInvite.run(:session_key => @session.key, :invite_id => wrong_invite.id)
+    expect(result.error).to eq(:user_not_invited)
+  end
+
+  it "passes and creates a new match" do
+
+    result = RPS::AcceptInvite.run(:session_key =>@session.key, :invite_id => @invite.id)
+    expect(result.success?).to eq(true)
+    match = result.match
+    expect(match.player1_id).to eq(@andy.id)
+
+  end
+
+end
+
 
 
 

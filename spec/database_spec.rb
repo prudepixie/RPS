@@ -23,11 +23,22 @@ describe "Database" do
     wendy = @db.add_user("wendy", "1234")
     expect(@db.get_user_from_username("wendy")).to eq(wendy)
   end
+  it "gets invite from thier invite id" do
+    wendy = @db.add_user("wendy", "123")
+    andy = @db.add_user("andy","123")
+    invite = @db.add_invite(wendy.id, andy.id)
+    expect(@db.get_invite(invite.id)).to eq(invite)
+  end
 
   it "gets user from session key" do
     wendy = @db.add_user("wendy", "1234")
     session = @db.create_session(wendy.id)
-    expect(@db.get_user_from_session(session.key)).to eq(wendy.id)
+    expect(@db.get_user_from_session(session.key).name).to eq("wendy")
+  end
+  it "creates a new session" do
+     wendy = @db.add_user("wendy", "1234")
+      session = @db.create_session(wendy.id)
+    expect(session).to eq(session)
   end
 
   it "changes an existing user's name (their id stays the same)" do
