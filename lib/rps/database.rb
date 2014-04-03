@@ -1,6 +1,4 @@
 
-require 'singleton'
-
 module RPS
 
   def self.db
@@ -15,25 +13,50 @@ module RPS
       @users = {}
       @rounds = {}
       @matches = {}
+      @invites = {}
       @session = {}
 
     end
+
+    # def all_users
+    #   @users.values
+    # end
     # USER CRUD - CREATE #
-    def add_user(name)
-      user1 = RPS::User.new(name)
-      user1_id = user1.id.to_i
-      @users[user1_id.to_i] = user1
-      return user1
+    def add_user(name, password)
+
+      user1 = RPS::User.new(name, password)
+      @users[user1.id.to_i] = user1
+      user1
     end
 
     #USER CRUD - READ #
     def show_users
-      @users
-    end
-
-    def get_user
       @users.values
     end
+
+    def get_user(uid)
+      @users[uid]
+    end
+
+    def create_session(key)
+      session = RPS::Session.new(key)
+      session_key = session.key.to_i
+      @session[session_key] = session
+      return session
+    end
+
+
+    def add_invite(id)
+      invite = RPS::Invite.new(id)
+      invite_id = invite.id.to_i
+      @invites[invite_id.to_i] = invite
+      return invite
+    end
+
+    def show_invites
+      @invites.values
+    end
+
     def get_round
       @rounds.values
     end
@@ -102,9 +125,8 @@ module RPS
 
     #ROUND CRUD - READ #
     def show_rounds_for_each_match(match_id)
-      # rounds = @rounds.values.select {|x| x.mid=match_id}
-      rounds = @rounds.values
-      return [rounds]
+      rounds = @rounds.values.select {|x| x.mid.to_i ==match_id.to_i}
+      return rounds
 
     end
 

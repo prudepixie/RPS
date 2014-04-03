@@ -9,11 +9,8 @@ class RPS::Match
     @player1_id = player1_id
     @player2_id = player2_id
 
+
   end
-
-
-
-
 
 end
 

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'User' do
   before do
-    @user = RPS::User.new("wendy")
+    @user = RPS::User.new("wendy", "1234")
   end
 
   it "makes a new user" do
@@ -10,6 +10,6 @@ describe 'User' do
   end
   it "generates unique id for each user" do
     RPS::User.class_variable_set :@@counter, 0
-    expect(RPS::User.new("bob").id).to eq(1)
+    expect(RPS::User.new("bob", "1234").id).to eq(1)
   end
 end

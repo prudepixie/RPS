@@ -11,22 +11,23 @@ describe "Database" do
   end
 
   it "adds a new user" do
-    expect(@db.add_user("wendy")).to be_a(RPS::User)
+    wendy = @db.add_user("wendy", "1234")
+    expect(wendy.name).to eq("wendy")
   end
   it "shows list of all users" do
-    wendy = @db.add_user("wendy")
-    andy = @db.add_user("andy")
-    expect(@db.show_users).to eq({wendy.id=>wendy, andy.id=>andy})
+    wendy = @db.add_user("wendy", "123")
+    andy = @db.add_user("andy","123")
+    expect(@db.show_users).to eq([wendy, andy])
   end
   it "changes an existing user's name (their id stays the same)" do
-    wendy = @db.add_user("wendy")
-    expect(@db.show_users).to eq({wendy.id =>wendy})
+    wendy = @db.add_user("wendy", "1234")
+    expect(@db.show_users).to eq([wendy])
 
      @db.update_user(wendy.id, "Freda")
      expect(@db.users).to eq({wendy.id => wendy})
   end
   it "deletes a user" do
-    wendy = @db.add_user("wendy")
+    wendy = @db.add_user("wendy", "1234")
     expect(@db.delete_user(wendy.id)).to eq({})
   end
 
@@ -47,8 +48,8 @@ describe "Database" do
 
   describe "new round" do
     before do
-      @player1= RPS::User.new("wendy")
-      @player2 = RPS::User.new("andy")
+      @player1= RPS::User.new("wendy", "1234")
+      @player2 = RPS::User.new("andy", "1234")
       @match1 = @db.start_new_match(@player1.id,@player2.id)
       @round1 = @db.create_new_round_for_match(@match1.id)
 
@@ -59,7 +60,7 @@ describe "Database" do
   end
 
   it "determines winner for each round " do
-    # player1 = @db.add_user("wendy")
+    # player1 = @db.add_user("wendy", 1234)
     # player2 = @db.add_user("andy")
     winner= @db.determine_winner_in_round(@match1.id, "rock", "paper")
     expect(winner).to eq(@player2.id)
@@ -68,12 +69,9 @@ describe "Database" do
 
     round2 = @db.create_new_round_for_match(@match1.id)
     round3 = @db.create_new_round_for_match(99)
-    @db.show_rounds_for_each_match(@match1.id)
-    binding.pry
-    expect(@db.rounds).to eq([@round1, round2, round3])
+    expect(@db.show_rounds_for_each_match(@match1.id)).to eq([@round1, round2])
 
-    # @db.show_rounds_for_each_match(@match1.id)
-    # expect(@db.rounds).to eq([@round1, round2])
+
   end
 
 

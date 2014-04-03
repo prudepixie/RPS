@@ -3,8 +3,8 @@ require 'spec_helper'
 describe 'Round' do
   before do
     @round = RPS::Round.new(1)
-    @player1= RPS::User.new("wendy")
-    @player2= RPS::User.new("andy")
+    @player1= RPS::User.new("wendy", "1234")
+    @player2= RPS::User.new("andy", "1234")
     @match = RPS::Match.new(1,2)
   end
 
