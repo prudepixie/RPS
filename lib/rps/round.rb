@@ -6,13 +6,13 @@ class RPS::Round
   def initialize(mid)
     @@counter +=1
     @id = @@counter
-    @player1_id = nil
-    @player2_id = nil
-    @winner = nil
-    @p1_move = nil
-    @p2_move = nil
+    @player1_id = player1_id
+    @player2_id = player2_id
+    @winner = winner
+    @p1_move = p1_move
+    @p2_move = p2_move
     @mid = mid
-    @status = nil
+    @status = "pending"
   end
 
   def register_player1(player1_id)
