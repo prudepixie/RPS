@@ -19,6 +19,11 @@ describe "Database" do
     andy = @db.add_user("andy","123")
     expect(@db.show_users).to eq([wendy, andy])
   end
+  it "gets user from their username" do
+    wendy = @db.add_user("wendy", "1234")
+    expect(@db.get_user_from_username("wendy")).to eq(wendy)
+  end
+
   it "changes an existing user's name (their id stays the same)" do
     wendy = @db.add_user("wendy", "1234")
     expect(@db.show_users).to eq([wendy])

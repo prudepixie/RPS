@@ -5,9 +5,8 @@ module RPS
 
 
       # inputs = { :name => "Wendy", :pw => "123" }
-
-      username = inputs[:name]
-      return failure(:username_missing) if user.name == nil
+      user = RPS.db.get_user_from_username(inputs[:username])
+      return failure(:username_missing) if user == nil
       password = inputs[:pw]
       return failure(:incorrect_password) if user.password != inputs[:pw]
 
