@@ -15,7 +15,6 @@ module RPS
       success :session_id => session.key, :user => user
 
     end
-
   end
 end
 

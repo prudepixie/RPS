@@ -53,6 +53,10 @@ module RPS
       session
     end
 
+    def get_session(key)
+      @sessions[key]
+    end
+
 
     def add_invite(id)
       invite = RPS::Invite.new(id)

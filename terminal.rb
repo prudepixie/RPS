@@ -8,7 +8,7 @@ class TerminalClient
     puts "[2] Sign up"
 
     input= gets.chomp
-    if input == 1
+    if input == "1"
       puts "What is your username?"
       username = gets.chomp
       puts "what is your password?"
@@ -16,7 +16,7 @@ class TerminalClient
 
       sign_in(username, password)
 
-    elsif input == 2
+    elsif input == "2"
       puts 'create a username for yourself'
       username = gets.chomp
       puts 'create a password'

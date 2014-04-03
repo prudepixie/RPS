@@ -12,6 +12,7 @@ require_relative 'rps/session.rb'
 require_relative 'rps/invite.rb'
 require_relative 'use_case.rb'
 require_relative 'use_cases/sign_up.rb'
+require_relative 'use_cases/Listinvites.rb'
 require_relative 'use_cases/acceptinvite.rb'
 require_relative 'use_cases/sign_in.rb'
 
